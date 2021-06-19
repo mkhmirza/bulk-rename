@@ -20,3 +20,10 @@ Make sure to add the trailing `/` in the folder path for example:<br />
 path/to/some/folder/ # right way
 path/to/some/folder  # wrong way
 ```
+
+### Renaming only folders within a DIR
+To rename folders within a directory containing other files use 
+```
+./rename.go <path-to-folder> -pattern <pattern> -f
+```
+`-f` flag makes sure that only folders within a directory are renamed.
