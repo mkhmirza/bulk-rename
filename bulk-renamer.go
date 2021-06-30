@@ -1,5 +1,9 @@
 package main
 
+/* 
+	Bulk Renamer for renaming multiple files/folder using terminal 
+*/
+
 import (
 	"flag"
 	"fmt"
