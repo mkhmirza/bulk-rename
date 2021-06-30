@@ -24,6 +24,12 @@ path/to/some/folder  # wrong way
 ### Renaming only folders within a DIR
 To rename folders within a directory containing other files use 
 ```
-./rename.go <path-to-folder> -pattern <pattern> -f
+./rename <path-to-folder> -pattern <pattern> -f
 ```
 `-f` flag makes sure that only folders within a directory are renamed.
+
+### Renaming Files With A Specific Extension
+To rename all files of a specific extension, run
+```
+./rename -folder <path-to-folder> -pattern <pattern>  -extension <file-extension> 
+```

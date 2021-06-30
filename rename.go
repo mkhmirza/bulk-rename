@@ -15,8 +15,7 @@ func checkError(err error) {
 	}
 }
 
-func rename(oldName string,folderPath *string, newName, fullPath string, 
-	counter *int) {
+func rename(oldName string,folderPath *string, newName, fullPath string, counter *int) {
 	// attaching the full path with the new name
 	newPath := *folderPath + newName;
 	// renaming the files 
@@ -34,6 +33,8 @@ func main() {
 	pattern := flag.String("pattern", "pic", "set a pattern for renaming files");
 	// if folders are to be renamed not files 
 	renameFolder := flag.Bool("f", false, "rename folders only within a directory");
+	// rename files with the given extension
+	specExt := flag.String("extension", "", "rename files having passed extension");
 	flag.Parse();
 	
 	// reading files and folders of the given path
@@ -61,15 +62,29 @@ func main() {
 			if f.IsDir(){
 				continue;
 			}
+
 			// getting the file extension
 			ext =  "." + strings.Split(f.Name(), ".")[1];
 			// constructing a new name for a file
 			newName = *pattern + strconv.Itoa(counter) + ext;
 
-			// rename 
-			rename(f.Name(), folderPath, newName, fullPath, &counter);
-			fileSlice = append(fileSlice, f.Name());
-	
+
+			if len(*specExt) > 0 {
+				// concat a '.' in front of the extension to match
+ 				currentExtension := "." + *specExt;
+			
+				// see if the current file extension is same as above file extension
+				if ext == currentExtension {
+					// rename a file having a specific extension
+					rename(f.Name(), folderPath, newName, fullPath, &counter);
+					fileSlice = append(fileSlice, f.Name());
+				}
+
+			} else { // rename a all files in the folder
+				rename(f.Name(), folderPath, newName, fullPath, &counter);
+				fileSlice = append(fileSlice, f.Name());
+			}
+
 		}  else if *renameFolder {
 			// only rename the folders in the directory
 			if f.IsDir() {
@@ -85,7 +100,7 @@ func main() {
 				rename(f.Name(), folderPath, newName, fullPath, &counter);
 				fileSlice = append(fileSlice, f.Name());
 			}
-		}
+		} 
 
 	}
 
