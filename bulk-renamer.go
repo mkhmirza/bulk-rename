@@ -34,18 +34,20 @@ func main() {
 	// folder path to files that are going to be rename
 	folderPath := flag.String("folder", "~/Desktop", "folder path having files to rename");
 	// pattern of naming
-	pattern := flag.String("pattern", "pic", "set a pattern for renaming files");
+	pattern := flag.String("pattern", "", "set a pattern for renaming files");
 	// if folders are to be renamed not files 
 	renameFolder := flag.Bool("f", false, "rename folders only within a directory");
 	// rename files with the given extension
 	specExt := flag.String("extension", "", "rename files having passed extension");
+	// give a starting value for the counter
+	startingPoint := flag.Int("starting-point", 0, "starting value for the counter")
 	flag.Parse();
 	
 	// reading files and folders of the given path
 	files, err := ioutil.ReadDir(*folderPath)
 	checkError(err);
 
-	counter := 0;
+	counter := *startingPoint;
 	var fileSlice []string;
 	
 	fmt.Printf("Folder Path: %s\n", *folderPath);

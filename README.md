@@ -5,7 +5,7 @@ Rename multiple files using terminal, based on a pattern.
 using **go**:
 ```
 cd bulk-renamer
-go build rename.go
+go build bulk-renamer.go
 ```
 After building the binary run the following command for help
 ```
@@ -32,4 +32,10 @@ To rename folders within a directory containing other files use
 To rename all files of a specific extension, run
 ```
 ./bulk-renamer -folder <path-to-folder> -pattern <pattern>  -extension <file-extension> 
+```
+
+### Starting Point for the Counter
+Starting number for the counter can be changed as
+```
+./bulk-renamer -folder <path-to-folder> -starting-point <starting-number> 
 ```
