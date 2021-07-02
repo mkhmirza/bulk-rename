@@ -41,8 +41,17 @@ func main() {
 	specExt := flag.String("extension", "", "rename files having passed extension");
 	// give a starting value for the counter
 	startingPoint := flag.Int("starting-point", 0, "starting value for the counter")
+	// dry run option
+	dryRun := flag.Bool("dry-run", false, "dry run on test/ folder");
 	flag.Parse();
 	
+
+	// if dry run option is given then set the folder to test/
+	if *dryRun {
+		// set test/ as the dir
+		*folderPath = "./test/";
+	}
+
 	// reading files and folders of the given path
 	files, err := ioutil.ReadDir(*folderPath)
 	checkError(err);
