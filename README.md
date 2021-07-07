@@ -1,5 +1,5 @@
 # Bulk Renamer
-Rename multiple files using terminal, based on a pattern. See [Note](##Note) before using to rename your personal files/folders.
+Rename multiple files using terminal, based on a pattern. See [Note](#note) before using to rename your personal files/folders.
 
 ## Installing Go Binary
 To create/install a go binary use
