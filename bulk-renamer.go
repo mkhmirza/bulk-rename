@@ -51,6 +51,9 @@ func rename(path *string, newName, fullPath string, counter *int) {
 
 func main() {
 
+	//TODO: 1) ask permission to overwrite if same file exists as the pattern
+
+
 	fmt.Println();
 
 	// folder path to files that are going to be renamed
@@ -58,11 +61,11 @@ func main() {
 	// pattern of naming
 	pattern := flag.String("pattern", "", "set a pattern for renaming files");
 	// if folders are to be renamed not files 
-	renameFolder := flag.Bool("rename-folder", false, "rename folders only within a directory");
+	renameFolder := flag.Bool("rfolder", false, "rename folders only within a directory");
 	// rename files with the given extension
 	specExt := flag.String("extension", "", "rename files having passed extension");
 	// give a starting value for the counter
-	startingPoint := flag.Int("starting-point", 0, "starting value for the counter")
+	startingPoint := flag.Int("spoint", 0, "starting value for the counter")
 	// dry run option
 	dryRun := flag.Bool("dry-run", false, "dry run on test/ folder");
 	flag.Parse();
