@@ -50,10 +50,6 @@ func rename(path *string, newName, fullPath string, counter *int) {
 }
 
 func main() {
-
-	//TODO: 1) ask permission to overwrite if same file exists as the pattern
-
-
 	fmt.Println();
 
 	// folder path to files that are going to be renamed
