@@ -14,6 +14,7 @@ if [ -d "./test/" ]
 then
     echo "Directory does exists." 
 else
+    # create a directory ./test/
     echo "Error: Directory test/ does not exists."
     mkdir test/
     echo "Directory test/ created."

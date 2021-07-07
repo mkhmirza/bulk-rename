@@ -1,5 +1,12 @@
 # Bulk Renamer
-Rename multiple files using terminal, based on a pattern.
+Rename multiple files using terminal, based on a pattern. See [Note](##Note) before using to rename your personal files/folders.
+
+## Installing Go Binary
+To create/install a go binary use
+```
+go install bulk-renamer.go
+```
+The go binary are stored in `pkg/` dir. To setup a Golang workspace see [how to setup a golang workspace](https://golang.org/doc/gopath_code#Workspaces).
 
 ## Usage
 using **go**:
@@ -9,11 +16,11 @@ go build bulk-renamer.go
 ```
 After building the binary run the following command for help
 ```
-./bulk-renamer -h
+bulk-renamer -h
 ```
 For Renaming files use
 ```
-./bulk-renamer -folder <path-to-folder> -pattern <pattern> 
+bulk-renamer -path <path-to-folder> -pattern <pattern> 
 ```
 Make sure to add the trailing `/` in the folder path for example:<br /> 
 ```
@@ -24,20 +31,20 @@ path/to/some/folder  # wrong way
 ### Renaming only folders within a DIR
 To rename folders within a directory containing other files use 
 ```
-./bulk-renamer <path-to-folder> -pattern <pattern> -f
+bulk-renamer <path-to-folder> -pattern <pattern> -f
 ```
 `-f` flag makes sure that only folders within a directory are renamed.
 
 ### Renaming Files With A Specific Extension
 To rename all files of a specific extension, run
 ```
-./bulk-renamer -folder <path-to-folder> -pattern <pattern>  -extension <file-extension> 
+bulk-renamer -path <path-to-folder> -pattern <pattern>  -extension <file-extension> 
 ```
 
 ### Starting Point for the Counter
 Starting number for the counter can be changed as
 ```
-./bulk-renamer -folder <path-to-folder> -starting-point <starting-number> 
+bulk-renamer -path <path-to-folder> -starting-point <starting-number> 
 ```
 
 ### Dry Run
@@ -74,7 +81,10 @@ File Created: test/4e6906fbeb.txt
 ```
 After creating the files using your prefered method, run the go program 
 ```
-./bulk-renamer -pattern <pattern> -extension <file-extension> -dry-run
+bulk-renamer -pattern <pattern> -extension <file-extension> -dry-run
 ```
 This will rename all the files in `test` folder having extension `txt`.<br ><br >
-**Note**: Run ./file-maker.sh before running `./bulk-renamer -pattern <pattern> -extension <file-extension> -dry-run` option.
+**Note**: Run ./file-maker.sh before running `bulk-renamer -pattern <pattern> -extension <file-extension> -dry-run` option.
+
+## Note
+Use this program with caution, as it can overwrite files having same name. Make sure you are passing the right arguments while renaming them. It is best to run `-dry-run` option just to see how the program works, then running it on personal files.
