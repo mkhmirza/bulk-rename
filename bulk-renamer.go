@@ -65,6 +65,14 @@ func main() {
 		*path = "./test/";
 	}
 
+	// if path is given '.', it means current directory
+	if *path == "." {
+		currentDir, err := os.Getwd();
+		checkError(err);
+		*path = currentDir + "/";
+		//fmt.Printf("Current Directory: %v\n", currentDir);
+	}
+
 	// reading files and folders of the given path
 	files, err := ioutil.ReadDir(*path)
 	checkError(err);
