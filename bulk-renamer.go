@@ -13,36 +13,45 @@ import (
 	"strings"
 )
 
+const (
+	colorRed = "\033[31m";
+	colorReset = "\033[0m";
+)
+
 func checkError(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
 
-func checkMode(renameFolder bool, path, specExt string) string {
+func checkMode(renameFolder bool, colorReset, path, specExt string) string {
 	mode := "";
+	redPath := fmt.Sprint(string(colorRed), path);
 	if renameFolder {
-		mode = "Renaming Folders in " + path; 
+		mode = "Renaming Folders in " + redPath; 
 	} else if  !renameFolder {
-		mode = "Renaming Files in " + path;
+		mode = "Renaming Files in " + redPath + fmt.Sprint(string(colorReset), "");
 		if len(specExt) > 0 {
-			mode += " with " + specExt + " extension";
+			ext := fmt.Sprint(string(colorRed), specExt)
+			mode +=  " with " + ext + fmt.Sprint(string(colorReset), " extension.");
 		}
 	}
 	return mode;
 }
 
-func rename(oldName string,path *string, newName, fullPath string, counter *int) {
+func rename(path *string, newName, fullPath string, counter *int) {
+	
 	// attaching the full path with the new name
 	newPath := *path + newName;
 	// renaming the files 
 	err := os.Rename(fullPath, newPath);
 	checkError(err);
 	*counter++;
-	fmt.Printf("%s\t%s\n", oldName, newName);
 }
 
 func main() {
+
+	fmt.Println();
 
 	// folder path to files that are going to be renamed
 	path := flag.String("path", "~/Desktop", "folder path having files to rename");
@@ -70,8 +79,10 @@ func main() {
 		currentDir, err := os.Getwd();
 		checkError(err);
 		*path = currentDir + "/";
-		//fmt.Printf("Current Directory: %v\n", currentDir);
 	}
+
+	pathToPrintRed := *path;
+	pathToPrintRed = fmt.Sprint(string(colorRed), pathToPrintRed);
 
 	// reading files and folders of the given path
 	files, err := ioutil.ReadDir(*path)
@@ -80,9 +91,13 @@ func main() {
 	counter := *startingPoint;
 	var fileSlice []string;
 	
-	fmt.Printf("Folder Path: %s\n", *path);
-	mode := checkMode(*renameFolder, *path, *specExt);
-	fmt.Printf("Mode: %v\n", mode);
+	space := fmt.Sprint(string(colorReset), " ");
+	// fmt.Printf("Folder Path: %s %v\n", pathToPrintRed, space);
+	mode := checkMode(*renameFolder, colorReset, *path, *specExt);
+
+	fmt.Printf("Mode: %v %v\n", mode, space);
+	fmt.Println();
+
 	fmt.Println("File Name\tNew Name");
 	fmt.Println("----------------------------------------");
 
@@ -116,12 +131,12 @@ func main() {
 				// see if the current file extension is same as above file extension
 				if ext == currentExtension {
 					// rename a file having a specific extension
-					rename(f.Name(), path, newName, fullPath, &counter);
+					rename(path, newName, fullPath, &counter);
 					fileSlice = append(fileSlice, f.Name());
 				}
 
 			} else { // rename a all files in the folder
-				rename(f.Name(), path, newName, fullPath, &counter);
+				rename(path, newName, fullPath, &counter);
 				fileSlice = append(fileSlice, f.Name());
 			}
 
@@ -137,14 +152,19 @@ func main() {
 				// constructing a new name for a folder
 				newName = *pattern + strconv.Itoa(counter);
 				// rename 
-				rename(f.Name(), path, newName, fullPath, &counter);
+				rename(path, newName, fullPath, &counter);
 				fileSlice = append(fileSlice, f.Name());
 			}
 		} 
+		
+		oldName := f.Name();
+
+		fmt.Printf("%s\t%s\n", oldName, newName);
 
 	}
 
 
 	fmt.Println("----------------------------------------");
-	fmt.Printf("Total Files Renamed: %d\n", len(fileSlice));	
+	fmt.Printf("Total Files Renamed: %d\n", len(fileSlice));
+	fmt.Println();	
 }
