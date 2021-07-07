@@ -6,7 +6,7 @@ To create/install a go binary use
 ```
 go install bulk-renamer.go
 ```
-The go binary are stored in `pkg/` dir. To setup a Golang workspace see [how to setup a golang workspace](https://golang.org/doc/gopath_code#Workspaces).
+The go binary are stored in `bin/` dir. To setup a Golang workspace see [how to setup a golang workspace](https://golang.org/doc/gopath_code#Workspaces).
 
 ## Usage
 using **go**:
