@@ -10,7 +10,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
-	"strings"
+	"path/filepath"
 )
 
 const (
@@ -22,6 +22,14 @@ func checkError(err error) {
 	if err != nil {
 		panic(err)
 	} 
+}
+
+func getFileExtension(filename string) (bool, string) {
+	var extension = filepath.Ext(filename)
+	if extension == ""{
+		return false, "nil";
+	}
+	return true, extension;
 }
 
 func checkMode(renameFolder bool, colorReset, path, specExt string) string {
@@ -116,6 +124,7 @@ func main() {
 
 		ext := "";
 		newName := "";
+		isFileExtension := false;
 
 		// if 'f' option is not given it means
 		// the current files should be renamed files with their original extension
@@ -127,10 +136,14 @@ func main() {
 			}
 
 			// getting the file extension
-			ext =  "." + strings.Split(f.Name(), ".")[1];
+			isFileExtension, ext = getFileExtension(f.Name());
+			// if file extension is false (not given)
+			if !(isFileExtension) {
+				continue;
+			}
+
 			// constructing a new name for a file
 			newName = *pattern + strconv.Itoa(counter) + ext;
-
 
 			if len(*specExt) > 0 {
 				// concat a '.' in front of the extension to match
