@@ -80,6 +80,15 @@ func main() {
 		*path = currentDir + "/";
 	}
 
+	temp := *path
+	// get the last character
+	trailing := string(temp[len(*path) - 1])
+	if !(trailing == "/") {
+		// add a '/' to not cause a exception
+		*path = *path + "/";
+	}
+
+	// adding color to path
 	pathToPrintRed := *path;
 	pathToPrintRed = fmt.Sprint(string(colorRed), pathToPrintRed);
 
