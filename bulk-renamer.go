@@ -21,7 +21,7 @@ const (
 func checkError(err error) {
 	if err != nil {
 		panic(err)
-	}
+	} 
 }
 
 func checkMode(renameFolder bool, colorReset, path, specExt string) string {
@@ -132,6 +132,9 @@ func main() {
 					// rename a file having a specific extension
 					rename(path, newName, fullPath, &counter);
 					fileSlice = append(fileSlice, f.Name());
+				} else {
+					// ignore this file, and move on
+					continue;
 				}
 
 			} else { // rename a all files in the folder
@@ -157,9 +160,7 @@ func main() {
 		} 
 		
 		oldName := f.Name();
-
 		fmt.Printf("%s\t%s\n", oldName, newName);
-
 	}
 
 
