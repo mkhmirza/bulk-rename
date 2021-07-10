@@ -22,11 +22,6 @@ For Renaming files use
 ```
 bulk-renamer -path <path-to-folder> -pattern <pattern> 
 ```
-Make sure to add the trailing `/` in the folder path for example:<br /> 
-```
-path/to/some/folder/ # right way
-path/to/some/folder  # wrong way
-```
 
 ### Renaming only folders within a DIR
 To rename folders within a directory containing other files use 
