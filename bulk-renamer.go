@@ -114,8 +114,8 @@ func main() {
 	fmt.Printf("Mode: %v %v\n", mode, space);
 	fmt.Println();
 
-	fmt.Println("File Name\tNew Name");
-	fmt.Println("----------------------------------------");
+	fmt.Printf("%-20s %20s\n", "File Name", "New Name");
+	fmt.Println("------------------------------------------");
 
 	//loop through the files
 	for _, f := range files {
@@ -131,62 +131,66 @@ func main() {
 		if !*renameFolder {
 
 			// ignore directories within the folder
-			if f.IsDir(){
-				continue;
-			}
-
-			// getting the file extension
-			isFileExtension, ext = getFileExtension(f.Name());
-			// if file extension is false (not given)
-			if !(isFileExtension) {
-				continue;
-			}
-
-			// constructing a new name for a file
-			newName = *pattern + strconv.Itoa(counter) + ext;
-
-			if len(*specExt) > 0 {
-				// concat a '.' in front of the extension to match
- 				currentExtension := "." + *specExt;
-			
-				// see if the current file extension is same as above file extension
-				if ext == currentExtension {
-					// rename a file having a specific extension
-					rename(path, newName, fullPath, &counter);
-					fileSlice = append(fileSlice, f.Name());
-				} else {
-					// ignore this file, and move on
-					continue;
+			// donot ignore the non directory files
+			if !(f.IsDir()){
+				// getting the file extension
+				isFileExtension, ext = getFileExtension(f.Name());
+				// if file extension is given (true)
+				if (isFileExtension) {
+					// constructing a new name for a file
+					newName = *pattern + strconv.Itoa(counter) + ext;
+				} else { // if extension is not given 
+					// create a new name without extension
+					newName = *pattern + strconv.Itoa(counter);
 				}
 
-			} else { // rename a all files in the folder
-				rename(path, newName, fullPath, &counter);
-				fileSlice = append(fileSlice, f.Name());
-			}
+				if len(*specExt) > 0 {
+					// concat a '.' in front of the extension to match
+					currentExtension := "." + *specExt;
+				
+					// see if the current file extension is same as above file extension
+					if ext == currentExtension {
+						// rename a file having a specific extension
+						rename(path, newName, fullPath, &counter);
+						fileSlice = append(fileSlice, f.Name());
+					} else {
+						// ignore this file, and move on
+						continue;
+					}
 
+				} else { // rename a all files in the folder
+					rename(path, newName, fullPath, &counter);
+					fileSlice = append(fileSlice, f.Name());
+				}
+			} // ending if of f.DIR()
+		
+		// ending if of renamer folder 	
 		}  else if *renameFolder {
 			// only rename the folders in the directory
 			if f.IsDir() {
 
-				// ignore normal files within the directory
-				if !f.IsDir() {
-					continue;
-				}
-
-				// constructing a new name for a folder
-				newName = *pattern + strconv.Itoa(counter);
-				// rename 
-				rename(path, newName, fullPath, &counter);
-				fileSlice = append(fileSlice, f.Name());
+				// ignore normal files within the directory 
+				// look only for folders
+				if f.IsDir() {
+					// constructing a new name for a folder
+					newName = *pattern + strconv.Itoa(counter);
+					// rename 
+					rename(path, newName, fullPath, &counter);
+					fileSlice = append(fileSlice, f.Name());
+				}	
 			}
 		} 
 		
 		oldName := f.Name();
-		fmt.Printf("%s\t%s\n", oldName, newName);
+		// new name should not be empty, meaning dont print
+		// file/folders not renamed
+		if !(newName == ""){
+			fmt.Printf("%-20s %20s\n", oldName, newName);
+		}
 	}
 
 
-	fmt.Println("----------------------------------------");
+	fmt.Println("------------------------------------------");
 	fmt.Printf("Total Files Renamed: %d\n", len(fileSlice));
 	fmt.Println();	
 }
